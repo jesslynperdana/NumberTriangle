@@ -90,8 +90,22 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        int currentRoot;
+
+        if (path.isEmpty() || isLeaf()) {
+            currentRoot = getRoot();
+        } else if (path.equals("l")) {
+            currentRoot = left.getRoot();
+        } else if (path.equals("r")) {
+            currentRoot = right.getRoot();
+        } else {
+            if (path.charAt(0) == 'l') {
+                currentRoot = left.retrieve(path.substring(1));
+            } else {
+                currentRoot = right.retrieve(path.substring(1));
+            }
+        }
+        return currentRoot;
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -110,9 +124,6 @@ public class NumberTriangle {
         // are more convenient to work with when reading the file contents.
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-
-
-        // TODO define any variables that you want to use to store things
         List<List<Integer>> rows = new ArrayList<>();
         List<List<NumberTriangle>> numberTriangleRows = new ArrayList<>();
 
@@ -126,7 +137,6 @@ public class NumberTriangle {
             // remove when done; this line is included so running starter code prints the contents of the file
             System.out.println(line);
 
-            // TODO process the line
             List<Integer> row = new ArrayList<>();
             String[] currentRow = line.split(" ");
             for (String number: currentRow) {
